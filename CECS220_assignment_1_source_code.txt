@@ -1,0 +1,129 @@
+// Demonstrates a basic applet.
+//**********************************************
+
+import javax.swing.JApplet;
+import java.awt.*;
+
+public class Einstein extends JApplet
+{
+    public void paint(Graphics page)
+    {
+        page.drawRect(50, 50, 40, 40); // square
+        page.drawRect(60, 80, 225, 30); // rectangle
+        page.drawOval(275, 100, 20, 20); // circle
+        page.drawLine(35, 60, 100, 120); // line
+
+        page.drawString("Out of clutter, find simplicity.", 110, 70);
+        page.drawString("Albert Einstein", 130, 100);
+    }
+}
+
+
+
+//"Amount of time" to "seconds" converter
+import java.util.Scanner;
+
+public class mainClass {               
+
+	public static void main (String[] args) {
+		int hours;
+		int minutes;
+		int seconds;
+		int total;
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Enter the number of hours, minutes, and seconds that you would like to convert to seconds.");
+		System.out.print("Hours: ");
+		hours = scan.nextInt();
+		System.out.println("");
+		
+		System.out.print("Minutes: ");
+		minutes = scan.nextInt();
+		System.out.println("");
+		
+		System.out.print("Seconds: ");
+		seconds = scan.nextInt();
+		
+		minutes = minutes*60;
+		hours = hours*60*60;
+		
+		total = hours + minutes + seconds;
+		
+		System.out.print("The total number of seconds is: " + total);	
+		
+	}
+}
+
+
+
+//"change" to "total amount" Converter
+
+import java.util.Scanner;
+
+
+public class mainClass {
+
+	public static void main(String[] args) {
+		int quarters;
+		int dimes;
+		int nickels;
+		int pennies;
+		double total;
+		
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.print("How many quarters are there?\t");
+		quarters = scan.nextInt();
+		System.out.println("");
+		
+		System.out.print("How many dimes are there?\t");
+		dimes = scan.nextInt();
+		System.out.println("");
+		
+		System.out.print("How many nickels are there?\t");
+		nickels = scan.nextInt();
+		System.out.println("");
+		
+		System.out.print("How many pennies are there?\t");
+		pennies = scan.nextInt();
+		System.out.println("");
+		
+		scan.close();
+		
+		total = (quarters*.25) + (dimes*.10) + (nickels*.05) + (pennies*.01);
+		System.out.println("The total ammount is $" + total);
+		
+		
+
+	}
+
+}
+
+
+
+//Area and Perimeter of a Square
+
+import java.util.Scanner;
+
+public class mainClass {
+
+	public static void main(String[] args) {
+		int side;
+		int perimeter;
+		int area;
+		Scanner scan = new Scanner(System.in); 
+		
+		System.out.print("What is the length of each side of the square? (Round to nearest integer.)\t");
+		side = scan.nextInt();
+		System.out.println("");
+		
+		perimeter = 4*side;
+		area = side*side;
+		
+		System.out.println("The perimeter of the square is " + perimeter);
+		System.out.print("The area of the square is " + area);
+		
+
+	}
+
+}

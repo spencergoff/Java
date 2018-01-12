@@ -1,0 +1,417 @@
+//keypad
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class KeyPad extends JPanel{
+
+	private JPanel panel;
+	private JLabel label;
+	private JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b;
+	
+	public KeyPad(){ //constructor
+		setLayout(new BorderLayout());
+		
+		panel = new JPanel();
+		panel.setLayout(new GridLayout(4, 3));//rows, columns
+		panel.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		label = new JLabel(" ");
+		label.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		b1 = new JButton("1");//creates a button
+		b1.addActionListener(new tempListener());//listens for a click
+		b2 = new JButton("2");
+		b2.addActionListener(new tempListener());
+		b3 = new JButton("3");
+		b3.addActionListener(new tempListener());
+		b4 = new JButton("4");
+		b4.addActionListener(new tempListener());
+		b5 = new JButton("5");
+		b5.addActionListener(new tempListener());
+		b6 = new JButton("6");
+		b6.addActionListener(new tempListener());
+		b7 = new JButton("7");
+		b7.addActionListener(new tempListener());
+		b8 = new JButton("8");
+		b8.addActionListener(new tempListener());
+		b9 = new JButton("9");
+		b9.addActionListener(new tempListener());
+		b0 = new JButton("0");
+		b0.addActionListener(new tempListener());
+		b = new JButton("clear");
+		b.addActionListener(new clearListener());
+		
+		panel.add(b1);//adds buttons to panel
+		panel.add(b2);
+		panel.add(b3);
+		panel.add(b4);
+		panel.add(b5);
+		panel.add(b6);
+		panel.add(b7);
+		panel.add(b8);
+		panel.add(b9);
+		panel.add(b0);
+		
+		add(label, BorderLayout.NORTH);//puts label at the top
+		add(panel, BorderLayout.CENTER);
+		add(b, BorderLayout.EAST);
+	}//end constructor
+	
+	private class tempListener implements ActionListener{ //what happens when a numeric button is clicked
+		public void actionPerformed(ActionEvent event){
+			String text = label.getText();
+			text += event.getActionCommand();//gives title of button to print in box
+			label.setText(text);
+		}//end actionPerformed
+		
+	}//end tempListener
+	
+	private class clearListener implements ActionListener{ //what happens when the clear button is clicked
+		public void actionPerformed(ActionEvent event){
+			label.setText(" ");
+			
+		}//end actionPerformed
+	}//end clearListener
+	
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("KeyPad");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		KeyPad panel = new KeyPad();
+		frame.getContentPane().add(panel);
+		frame.pack();
+		frame.setVisible(true);
+	}//end main
+
+}//end keypad class
+
+
+
+
+//GUI for Pig Latin translator
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class PigLatinPanel extends JPanel {
+	private JLabel inputlabel, outputlabel, resultlabel;
+	private JTextField text;
+	private JButton button;
+	
+	public PigLatinPanel(){
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		inputlabel = new JLabel("Enter English sentence: ");
+		outputlabel = new JLabel("The sentence in Pig Latin is: ");
+		resultlabel = new JLabel("---");
+		button = new JButton("Translate");
+		
+		text = new JTextField(100);//what they're typing
+		
+		button.addActionListener(new TempListener());
+		
+		add(inputlabel);
+		add(text);//where to type
+		add(button);
+		add(outputlabel);
+		add(resultlabel);
+		
+		
+		setPreferredSize(new Dimension(600, 150));
+		setBackground(Color.yellow);
+
+	} //end PigLatinPanel
+	
+	private class TempListener implements ActionListener{
+		public void actionPerformed(ActionEvent event){
+			resultlabel.setText(PigLatinTranslator.translate(text.getText()));
+			
+		}
+	}
+
+} //end class
+
+
+//converts message to pig Latin w/ GUI 
+//import java.util.Scanner;
+
+import javax.swing.JFrame;
+
+public class PigLatin {
+	//private static Scanner scan;
+
+	public static void main(String[] args){
+		JFrame frame = new JFrame("Pig Latin Translator");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//closes when exit is pressed
+		
+		PigLatinPanel plp = new PigLatinPanel();//GUI
+		frame.getContentPane().add(plp);//where the stuff goes
+		frame.pack();
+		frame.setVisible(true);
+		
+		
+	}//end main
+	
+}//end class
+
+
+
+//translator from english to Pig Latin
+import java.util.Scanner;
+
+public class PigLatinTranslator {
+	
+	private static Scanner scan;
+	public static String sentence;
+
+	public static String translate (String sentence){
+		String result = "";
+		sentence = sentence.toLowerCase();
+		scan = new Scanner(sentence);
+		
+		while(scan.hasNext()){
+			result += translateWord(scan.next());
+			result += " ";
+		}//end while
+		
+		return result;
+		
+	} //end translate
+	
+	private static String translateWord(String word){
+		String result = "";
+		
+		if(beginsWithVowel(word))
+			result = word + "yay";
+		else
+			if(beginsWithBlend(word))
+				result = word.substring(2) + word.substring(0, 2) + "ay";
+			else
+				result = word.substring(1) + word.charAt(0) + "ay";
+		
+		return result;
+		
+	} //end result
+
+	private static boolean beginsWithVowel(String word){
+		String vowels = "aeiou";
+		char letter = word.charAt(0);
+		return(vowels.indexOf(letter) != -1);
+	} //end beginsWithVowel
+	
+	private static boolean beginsWithBlend(String word){
+		return( word.startsWith("bl") || word.startsWith("sc") ||
+				word.startsWith("br") || word.startsWith("sh") ||
+				word.startsWith("ch") || word.startsWith("sk") ||
+				word.startsWith("cl") || word.startsWith("sl") ||
+				word.startsWith("cr") || word.startsWith("sn") ||
+				word.startsWith("dr") || word.startsWith("sm") ||
+				word.startsWith("dw") || word.startsWith("sp") ||
+				word.startsWith("fl") || word.startsWith("sq") ||
+				word.startsWith("fr") || word.startsWith("st") ||
+				word.startsWith("gl") || word.startsWith("sw") ||
+				word.startsWith("gr") || word.startsWith("th") ||
+				word.startsWith("kl") || word.startsWith("tr") ||
+				word.startsWith("ph") || word.startsWith("tw") ||
+				word.startsWith("pl") || word.startsWith("wh") ||
+				word.startsWith("pr") || word.startsWith("wr"));
+	}
+}
+
+
+//driver for student
+
+public class Student_Driver {
+
+	public static void main(String[] args) {
+		Course english = new Course("English");
+		
+		Student spencer = new Student("spencer", "goff", 100, 100, 100);
+		
+		Student keith = new Student("keith", "goff");
+		keith.settest(1, 34);
+		keith.settest(2, 100);
+		keith.settest(3, 0);
+		
+		Student isaac = new Student("isaac", "goff", 0, 0, 1);
+		Student angie = new Student("angie", "goff", 90, 67, 103);
+		Student zack = new Student("zack", "shumaker", 90, 67, 103);
+
+		
+		english.addStudent(spencer);
+		english.addStudent(keith);
+		english.addStudent(isaac);
+		english.addStudent(angie);
+		english.addStudent(zack);
+
+		
+		
+		english.roll(); //prints all students in the course
+		System.out.println("Average Score: " + english.averageAll());
+		
+	} //end main
+
+	
+	
+} //end class
+
+
+
+// Represents a college student
+
+public class Student {
+
+	private String fname, lname;
+	private double test1, test2, test3; 
+	
+		
+	public Student(String first, String last){ //constructor
+		fname = first;
+		lname = last;
+		test1 = 0;
+		test2= 0;
+		test3 = 0;
+
+	} //end constructor
+	
+	public Student(String first, String last, double t1, double t2, double t3){ //constructor
+		fname = first;
+		lname = last;
+		test1 = t1;
+		test2= t2;
+		test3 = t3;
+
+	} //end constructor	
+	
+	public String toString(){
+		String result;
+		result = fname + " " + lname + "\n";
+		return result;
+		
+	} //end toString
+	
+	public double gettest(int test){ //returns student's test score
+		double result = 0;
+		
+		if(test == 1)
+			result = test1;
+		else if(test == 2)
+			result = test2;
+		else if(test == 3)
+			result = test3;
+		
+		return result;
+		
+	} //end gettest
+	
+	public void settest(int test, double score){
+		if(test == 1)
+			 test1 = score;
+		else if(test == 2)
+			 test2 = score;
+		else if(test == 3)
+			 test3 = score;
+	}
+	
+	public double average(){
+		return((test1+test2+test3)/3);
+	}
+	
+}
+
+
+//represents a course taken at school
+
+public class Course {
+	
+	private String coursename; 
+	private Student[] students;
+	private int count;
+	
+	public Course(String coursename){
+		this.coursename = coursename; 
+		students = new Student[5];
+		count = 0;
+		
+	} //constructor accepts name of course
+	
+	public void addStudent(Student stu1){ //adds a student; accepts student name & course
+		students[count] = stu1;
+		count++;
+			
+	} //end addStudent
+	
+	public double averageAll(){ //returns average test score of all students
+		double avg = 0;
+		for(Student s: students){ //looks at each of the Students and adds their averages
+			avg += s.average();
+		}
+		
+		return (avg/count);
+		
+	} //end averageAll
+	
+	public void roll(){ //prints all students in the course
+		System.out.println("Students:");
+		for(Student s: students){
+			System.out.print(s);
+		}
+		
+		
+	} //end roll
+
+} //end class
+
+
+//establishes numeric priority among a set of objects
+
+public interface Priority {
+	
+	public void setPriority();
+	public int getPriority();
+
+}
+
+
+//represents a task
+
+public class Task implements Priority {
+	public static int count = 0;
+	int priority;
+	
+	public Task(){ //constructor
+		count++;
+	}
+	
+	public void setPriority(){
+		priority = count; //a task's priority is dependent on the order in which it was created
+	};
+	
+	public int getPriority(){
+		return count;
+	};
+
+	
+}
+
+
+//driver for task
+
+public class Task_Driver {
+
+	public static void main(String[] args) {
+		Task getMilk = new Task();
+		System.out.println("Get Milk. Priority:  " +getMilk.getPriority());
+		
+		Task getEggs = new Task();
+		System.out.println("Get Eggs. Priority:   " + getEggs.getPriority());
+		
+		Task getCheese = new Task();
+		System.out.println("Get Cheese. Priority:   " + getCheese.getPriority());
+
+	}
+
+}
+
+

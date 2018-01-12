@@ -1,0 +1,622 @@
+//horizontal line moves across screen through vertical line (driver class)
+import javax.swing.*;
+
+public class LineAnimation {
+
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Line Animation");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.getContentPane().add(new LineAnimationPanel());
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+}
+
+
+import javax.swing.JFrame;
+
+public class RubberLines 
+{
+
+	public static void main(String[] args) //creates & displays application frame
+	{
+		JFrame frame = new JFrame("Rubber Lines");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.getContentPane().add(new RubberLinesPanel());
+		
+		frame.pack();
+		frame.setVisible(true);
+		
+	}
+
+}
+
+
+import javax.swing.JFrame;
+
+public class RubberLines 
+{
+
+	public static void main(String[] args) //creates & displays application frame
+	{
+		JFrame frame = new JFrame("Rubber Lines");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.getContentPane().add(new RubberLinesPanel());
+		
+		frame.pack();
+		frame.setVisible(true);
+		
+	}
+
+}
+
+
+//exception handler for document classification
+//import java.util.*;
+
+public class InvalidDocumentCodeException extends Exception 
+{
+	InvalidDocumentCodeException()
+	{
+		//System.out.println("Please enter a valid classification.");
+		//super(message);
+	}
+	
+	
+	private static final long serialVersionUID = 1L;
+	
+	
+}
+
+
+import java.util.Scanner;
+
+//document classification
+public class Documents 
+{
+
+	private static Scanner scan;
+	
+	public static void main(String[] args) throws InvalidDocumentCodeException
+	{
+		
+		System.out.println("Beginning");
+		
+		String des;//document designation (U for unclassified, C for confidential, or P for proprietary)
+		String cla = " ";
+		//int x = 0;
+		
+		scan = new Scanner(System.in);
+		
+		System.out.println("Enter document classifiction:");
+		des = scan.next();
+
+		try
+		{
+				if(des.equals("U"))
+					{cla = "Unclassified";
+					System.out.println("Document classified as " + cla);}
+				
+				else if(des.equals("C"))
+					{cla = "Confidential";
+					System.out.println("Document classified as " + cla);}
+
+				else if (des.equals("P"))
+					{cla = "Proprietary";
+					System.out.println("Document classified as " + cla);}
+					
+				else 
+				{throw new InvalidDocumentCodeException();}//InvalidDocumentCodeException
+		}
+		
+		catch(InvalidDocumentCodeException exception)
+		{
+			System.out.println("Please enter a valid classification.");
+		}
+	
+		
+		
+		
+		
+	}
+
+}
+
+
+//what a cow says
+public class Cow implements Speaker
+{
+	public void speak()
+	{
+		System.out.println("Cows go moo!");
+	}
+	
+	public void announce(String name)
+	{
+		System.out.println(name + " says: I like grass.");
+	}
+
+	public void farm(String name)
+	{
+		System.out.println("Cows, like " + name +" live on farms.");
+	}
+	
+}
+
+
+
+//horizontal line moves across screen through vertical line
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class LineAnimationPanel extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	private Timer timer;
+	private int x1, y1, x2, y2, moveX, moveY;
+	private final int WIDTH = 400, HEIGHT = 400;
+	
+	public LineAnimationPanel()//constructor
+	{
+		timer = new Timer(20, new LineListener()); //delay in milliseconds
+		x1 = 0;//where moving line begins
+		y1 = 200;
+		x2 = 100;//where moving line ends
+		y2 = 200; 
+		moveX = 3;
+		moveY = 0;
+		
+		setBackground(Color.red);
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));//width, height
+		timer.start();
+	}
+
+	public void paintComponent(Graphics page)//draws horizontal line
+	{
+		super.paintComponent(page);
+		
+		page.drawLine(x1, y1, x2, y2);//starting (x,y), ending (x,y)
+		
+		if(x2 < 325)
+			{page.setColor(Color.yellow);}
+		if(x2 >= 325)
+			{page.setColor(Color.blue);}
+		
+		page.setColor(Color.blue);
+		page.drawLine(325, 0, 325, 400);//starting (x,y), ending (x,y)
+	}
+	
+	private class LineListener implements ActionListener //action listener for timer
+	{
+		public void actionPerformed(ActionEvent event)//updates position of the moving line
+		{
+			x1 += moveX;
+			x2 += moveX;
+			y1 += moveY;
+			y2 += moveY;
+			
+			/*if(x2>WIDTH ||x1<0 )//makes line bounce once it reaches an edge
+				{moveX = moveX * -1;}*/
+				
+			repaint();
+		}
+	}
+}
+
+
+
+//represents a single DVD
+import java.text.NumberFormat;
+
+public class DVD
+{
+	private String title, director;
+	private int year;
+	private double cost;
+	private boolean bluray;
+	
+	public DVD(String title, String director, int year, double cost, boolean bluray)
+	{
+		this.title = title;
+		this.director = director;
+		this. year = year;
+		this.cost = cost;
+		this.bluray = bluray;
+	}
+	
+	public String toString()
+	{
+		NumberFormat fmt = NumberFormat.getCurrencyInstance();
+		
+		String description;
+		
+		description = fmt.format(cost) + "\t" + year + "\t"; 
+		description += title + "\t" + director;
+		if(bluray)
+			{description += "\t" + "Blu=ray";}
+		
+		return description;
+		
+	}
+}
+//represent a DVD collection
+import java.text.NumberFormat;
+
+public class DVDCollection 
+{
+	private DVD[] collection;
+	private int count;
+	private double totalCost;
+	
+	public DVDCollection()//constructor
+	{
+		collection = new DVD[100];
+		count = 0;
+		totalCost = 0.0;
+	}
+	
+	public void addDVD(String title, String director, int year, //adds a DVD to the collection
+						double cost, boolean bluray)
+	{
+		if (count == collection.length)
+			{increaseSize();}
+		
+		collection[count] = new DVD(title, director, year, cost, bluray);
+		totalCost += cost;
+		count++;
+	}
+	
+	public String toString()//returns report describing DVD collection
+	{
+		NumberFormat fmt = NumberFormat.getCurrencyInstance();
+		
+		String report = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+		report += "My DVD Collection\n\n";
+		
+		report += "Number of DVDs: " + count + "\n";
+		report += "Total cost: " + fmt.format(totalCost) + "\n";
+		report += "Average cost: " + fmt.format(totalCost/count);
+		
+		report += "\n\nDVD List:\n\n";
+		
+		for(int dvd = 0; dvd < count; dvd++)
+			{report += collection[dvd].toString() + "\n";}
+		
+		return report;
+					
+	}
+	
+	private void increaseSize()
+	{
+		DVD[] temp = new DVD[collection.length * 2];
+		
+		for(int dvd = 0; dvd < collection.length; dvd++)
+			{temp[dvd] = collection[dvd];}
+		
+		collection = temp;
+	}
+	
+}
+
+
+
+
+//horizontal line moves across screen through vertical line
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class LineAnimationPanel extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	private Timer timer;
+	private int x1, y1, x2, y2, moveX, moveY;
+	private final int WIDTH = 400, HEIGHT = 400;
+	
+	public LineAnimationPanel()//constructor
+	{
+		timer = new Timer(20, new LineListener()); //delay in milliseconds
+		x1 = 0;//where moving line begins
+		y1 = 200;
+		x2 = 100;//where moving line ends
+		y2 = 200; 
+		moveX = 3;
+		moveY = 0;
+		
+		setBackground(Color.red);
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));//width, height
+		timer.start();
+	}
+
+	public void paintComponent(Graphics page)//draws horizontal line
+	{
+		super.paintComponent(page);
+		
+		page.drawLine(x1, y1, x2, y2);//starting (x,y), ending (x,y)
+		
+		if(x2 < 325)
+			{page.setColor(Color.yellow);}
+		if(x2 >= 325)
+			{page.setColor(Color.blue);}
+		
+		page.setColor(Color.blue);
+		page.drawLine(325, 0, 325, 400);//starting (x,y), ending (x,y)
+	}
+	
+	private class LineListener implements ActionListener //action listener for timer
+	{
+		public void actionPerformed(ActionEvent event)//updates position of the moving line
+		{
+			x1 += moveX;
+			x2 += moveX;
+			y1 += moveY;
+			y2 += moveY;
+			
+			/*if(x2>WIDTH ||x1<0 )//makes line bounce once it reaches an edge
+				{moveX = moveX * -1;}*/
+				
+			repaint();
+		}
+	}
+}
+
+//list of DVDs, sorted by title
+
+public class Movies 
+{
+
+	public static void main(String[] args) 
+	{
+		DVDCollection movies = new DVDCollection();
+		
+		movies.addDVD("All About Eve", "Jon Mankiewicz", 1950, 17.50, false);
+		movies.addDVD("District 9", "Neill Blomkamp", 2009, 19.95, false);
+		movies.addDVD("Iron", "Jon Favreau", 2008, 15.95, false);
+		movies.addDVD("The Godfather", "Francis Ford Coppola", 1972, 24.95, true);
+		movies.addDVD("The Matrix", "Andy & Lana Wachowski", 1999, 19.95, true);
+		
+		
+		//DVDCollection.sort(movies);
+		System.out.println(movies);
+		
+		System.out.println(movies);
+	}
+}
+
+//what a professor says
+public class Professor implements Speaker
+{
+	public void speak()
+	{
+		System.out.println("Professors say: Blah blah blah...");
+	}
+	
+	public void announce(String name)
+	{
+		System.out.println(name + " says: The exam will be easy!");
+	}
+
+	public void funny(String name)
+	{
+		System.out.println("Professors are funny people! Especially " + name);
+	}
+}
+
+
+//sorts list by title
+import java.lang.String;
+
+public class Sorting 
+{
+
+	public void sort(DVD[] movies)//sorts list by title
+	{
+		int min;
+		DVD temp;
+		
+		for(int index = 0; index < movies.length-1; index++)
+		{
+			min = index;
+			for(int scan = index+1; scan < movies.length; scan++){
+				if(movies[scan].compareTo(movies[min]) < 0)
+				{min = scan;}
+			}
+			
+			//swap values
+			temp = movies[min];
+			movies[min] = movies[index];
+			movies[index] = temp;
+		}
+		
+	}
+}
+
+
+//interface for things that make sounds
+public interface Speaker {
+	public void speak();
+	public void announce(String str);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//what a tree says
+public class Tree implements Speaker
+{
+	public void speak()
+	{
+		System.out.println("Trees whisper when the wind blows.");
+	}
+	
+	public void announce(String name)
+	{
+		System.out.println(name + " says: whisper whisper!");
+	}
+
+	public void plants(String name)
+	{
+		System.out.println("Trees, like " + name + " are plants, not animals.");
+	}
+	
+}
+
+
+//displays a timer (driver class)
+import javax.swing.JFrame;
+
+public class TimerWatch 
+{
+	public static void main(String[] args) 
+	{
+		JFrame frame = new JFrame("Timer");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		TimerPanel panel = new TimerPanel();
+		
+		frame.getContentPane().add(panel);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+}
+
+
+
+//displays a timer
+import javax.swing.*;
+//import java.util.Timer;
+//import java.awt.Toolkit;
+//import java.util.TimerTask;
+//import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+
+public class TimerPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
+	private final javax.swing.Timer timer;
+	public int sec; //seconds displaying
+	private JLabel display;
+	public String text;
+	private JButton start;
+	private JButton stop;
+	private JButton clear;
+	private JPanel panel;
+
+	public TimerPanel()//constructor
+	{
+		setBackground(Color.white);
+		setPreferredSize(new Dimension(400, 400));//width, height
+		sec = 0;
+		
+		panel = new JPanel();
+		panel.setBorder(BorderFactory.createLineBorder(Color.white));
+		
+		display = new JLabel(" ");//displays amount of time passed
+		display.setBorder(BorderFactory.createLineBorder(Color.white));//border for label
+		
+		start = new JButton("Start");//start button
+		start.addActionListener(new startListener());
+		
+		stop = new JButton("Stop");//stop button
+		stop.addActionListener(new stopListener());
+		
+		clear = new JButton("Clear");
+		clear.addActionListener(new clearListener());
+
+		
+		panel.add(start);
+		panel.add(stop);
+		panel.add(clear);
+		
+		add(display, BorderLayout.SOUTH);//puts label at the top
+		add(panel, BorderLayout.SOUTH);
+		
+		timer = new javax.swing.Timer(1000, new startListener()); //delay in milliseconds
+		
+	}
+	
+	private class startListener implements ActionListener //action listener for start
+	{
+		public void actionPerformed(ActionEvent event)//updates position of the moving line
+		{
+			timer.start();//starts timer
+			sec++;
+			text = String.valueOf(sec);
+			//repaint();
+			display.setText(String.valueOf(sec));
+			add(display, BorderLayout.SOUTH);
+		}
+	}
+	
+	private class stopListener implements ActionListener //action listener for stop
+	{
+		public void actionPerformed(ActionEvent event)//updates position of the moving line
+		{
+			timer.stop();//stops the timer
+		}
+		
+	}
+	
+	private class clearListener implements ActionListener //action listener for stop
+	{
+		public void actionPerformed(ActionEvent event)//updates position of the moving line
+		{
+			timer.stop();//stops the timer
+			display.setText(" ");
+			sec = 0;
+		}
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

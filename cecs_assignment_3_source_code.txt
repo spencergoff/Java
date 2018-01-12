@@ -1,0 +1,360 @@
+//determines statistics about a set of text
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+public class Stats extends StatsPanel {
+
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Text Stats");//window with title
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		StatsPanel panel = new StatsPanel(); //??
+		
+		JScrollPane sp = new JScrollPane(input); //Scrollpane
+		sp.setPreferredSize(new Dimension(450, 400));
+		frame.getContentPane.add(sp);
+		frame.pack();
+		frame.setVisible(true);
+
+	}
+
+}
+
+
+import javax.swing.JFrame;
+
+//rolls two dice 
+
+public class PairOfDice {
+		
+		static Die die1 = new Die(); //creates two dice
+		static Die die2 = new Die();
+		static int isum;
+	
+		private final int MAX = 6; //max face value
+		
+		public int faceValue; //current value showing (face-up)
+		
+		public PairOfDice(){ //constructor
+			faceValue = 1; 
+		}
+		
+		public int roll(){ //rolls die & returns result
+			faceValue = (int)(Math.random() * MAX ) + 1;
+			return faceValue;
+		}
+		
+		public void setFaceValue(int value){ //mutates face value
+			faceValue = value; 	
+		}
+		
+		public int getFaceValue(){ //face value accessor
+			return faceValue;
+		}
+		
+		public String toString(){ //returns string representation of die
+			String result = Integer.toString(faceValue);
+			return result;
+		}
+
+		public static void sum(){ //returns sum of the upward facing values
+			isum = die1.roll() + die2.roll();
+		}
+		
+	    public static void main(String[] args) {
+			sum(); 
+			System.out.println("The sum is: " + isum);
+		
+	   }//end main
+	
+}//end class
+
+
+
+//modified Dice
+
+public class ModPairOfDice {
+		
+		static Die die1 = new Die(); //creates two dice
+		static Die die2 = new Die();
+		static int isum;
+	
+		private final int MAX = 6; //max face value
+		
+		public int faceValue; //current value showing (face-up)
+		
+		public static void main(String[] args) {
+			sum(); 
+			System.out.println("The sum is: " + isum);
+		
+	   }//end main
+		
+		public ModPairOfDice(){ //constructor
+			faceValue = 1; 
+		}
+		
+		public int roll(){ //rolls die & returns result
+			faceValue = (int)(Math.random() * MAX ) + 1;
+			if(faceValue < 1 || faceValue > 6)
+				return 0;
+			else{		
+			return faceValue;}
+			return faceValue;
+		}
+		
+		public void setFaceValue(int value){ //mutates face value
+			faceValue = value; 	
+		}
+		
+		public int getFaceValue(){ //face value accessor
+			return faceValue;
+		}
+		
+		public String toString(){ //returns string representation of die
+			String result = Integer.toString(faceValue);
+			return result;
+		}
+
+		public static void sum(){ //returns sum of the upward facing values
+			isum = die1.roll() + die2.roll();
+		}
+		
+	
+}//end class
+
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class FahrenheitPanel extends JPanel{
+	
+	private JLabel inputLabel, outputLabel, resultLabel;
+	private JTextField fahrenheit;
+	
+	public FahrenheitPanel(){ //constructor
+		inputLabel = new JLabel ("Enter Fahrenheit temperature: ");
+		outputLabel = new JLabel ("Temperature in Celcius: ");
+		resultLabel = new JLabel ("---");
+		
+		fahrenheit = new JTextField (5);
+		fahrenheit.addActionListener(new TempListener());
+		
+		add (inputLabel);
+		add (fahrenheit);
+		add (outputLabel);
+		add (resultLabel);
+		
+		setPreferredSize (new Dimension(300, 75));
+		setBackground (Color.yellow);
+	}
+	
+	private class TempListener implements ActionListener { //action listener for temperature input field
+		
+		public void actionPerformed (ActionEvent event){ //performs conversion
+			int fahrenheitTemp, celsiusTemp;
+			
+			String text = fahrenheit.getText();
+			
+			fahrenheitTemp = Integer.parseInt (text);
+			celsiusTemp = (fahrenheitTemp-32) * 5/9;
+			resultLabel.setText (Integer.toString(celsiusTemp));
+		}	
+	}
+}
+
+
+//converts from fahrenheit to celsius
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class Fahrenheit extends JPanel{
+	private JLabel inputLabel, outputLabel, resultLabel;
+	private JTextField fahrenheit;
+	private JButton push;
+	
+	public Fahrenheit(){
+		inputLabel = new JLabel("Enter Fahrenheit temperature:");
+		outputLabel = new JLabel("Temperature in Celcius");
+		resultLabel = new JLabel("---");
+		
+		fahrenheit = new JTextField(5);
+		fahrenheit.addActionListener(new TempListener());
+		
+		push = new JButton("Calculate");
+		push.addActionListener(new TempListener());
+		
+		add(inputLabel);
+		add(fahrenheit);
+		add(outputLabel);
+		add(resultLabel);
+		add(push);
+		
+		setPreferredSize(new Dimension(300, 75));
+		setBackground(Color.yellow);
+	}
+	
+	private class TempListener implements ActionListener{
+		public void actionPerformed(ActionEvent event) {
+			String text = fahrenheit.getText();
+			int fahrenheitTemp = Integer.parseInt(text);
+			int celsiusTemp = (fahrenheitTemp-32)*5/9;
+			resultLabel.setText(Integer.toString(celsiusTemp));
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		JFrame frame = new JFrame ("Fahrenheit");
+		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		
+		Fahrenheit panel = new Fahrenheit();
+		
+		frame.getContentPane().add(panel); 
+		frame.pack();
+		frame.setVisible(true);
+		
+
+	}//end main
+
+}//end class Fahrenheit
+
+
+//Represents one die with faces showing values between 1 and 6
+
+public class Die {
+	
+	private final int MAX = 6; //max face value
+	
+	public int faceValue; //current value showing (face-up)
+	
+	public Die(){ //constructor
+		faceValue = 1; 
+	}
+	
+	public int roll(){ //rolls die & returns result
+		faceValue = (int)(Math.random() * MAX ) + 1;
+		return faceValue;
+	}
+	
+	public void setFaceValue(int value){ //mutates face value
+		faceValue = value; 	
+	}
+	
+	public int getFaceValue(){ //face value accessor
+		return faceValue;
+	}
+	
+	public String toString(){ //returns string representation of die
+		String result = Integer.toString(faceValue);
+		return result;
+	}
+
+}//end class Die
+
+
+//counts number of vowels and consonants
+import java.util.ArrayList;
+import java.util.Scanner;
+public class CharCounter {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int a = 0;//vowel counters
+		int e = 0;
+		int i = 0;
+		int o = 0;
+		int u = 0;
+		int other = 0;//consonant counter
+		String text = new String();
+		
+		System.out.println("Enter desired string:");
+		text = scan.nextLine();
+		
+		for(int x=0; x<text.length(); x++){
+			switch(text.charAt(x)){
+				case 'a':
+					a++;
+					break;
+				case 'e':
+					e++;
+					break;
+				case 'i':
+					i++;
+					break;
+				case 'o':
+					o++;
+					break;
+				case 'u':
+					u++;
+					break;
+				default:
+					other++;
+			}
+			
+		}//end for 
+		
+		System.out.println("The total number of a's is " + a);
+		System.out.println("The total number of e's is " + e);
+		System.out.println("The total number of i's is " + i);
+		System.out.println("The total number of o's is " + o);
+		System.out.println("The total number of u's is " + u);
+		System.out.println("The total number of nonvowels is " + other);
+		
+	}//end main
+
+}//end class
+
+
+import javax.swing.*;
+import java.awt.*;
+
+
+public class FencePanel extends JPanel {
+	public FencePanel(Color background){
+		setBackground(background);
+	}
+	
+	public void paintComponent(Graphics painter){
+		super.paintComponent(painter);
+		
+		painter.drawLine(50, 200, 50, 100);//fence
+		painter.drawLine(150, 200, 150, 100);
+		painter.drawLine(250, 200, 250, 100);
+		painter.drawLine(350, 200, 350, 100);
+		painter.drawLine(450, 200, 450, 100);
+		painter.drawLine(0, 175, 450, 175);//crossbars
+		painter.drawLine(0, 125, 450, 125);
+		
+		painter.drawRect(100, 75, 80, 80);//house (upperleft-x, upperleft-y, length, width)
+		painter.drawLine(100, 75, 140, 35);//roof
+		painter.drawLine(140, 35, 180, 75);
+	}
+
+}
+
+
+//draws fence with house in background
+import javax.swing.*;
+import java.awt.*;
+
+public class home {
+
+	public static void main(String[] args) {
+		JFrame UI = new JFrame();
+		UI.setTitle("House and Fence");
+		UI.setSize(400, 300);
+		UI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		FencePanel panel = new FencePanel(Color.white);
+		Container pane = UI.getContentPane();
+		pane.add(panel);
+		UI.setVisible(true);
+		
+		
+	}
+
+}

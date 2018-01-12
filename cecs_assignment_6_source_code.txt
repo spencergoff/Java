@@ -1,0 +1,232 @@
+//allows user to enter strings of length less than or equal to MAX characters, 
+//and throws exception if string is greater than MAX.
+import java.util.Scanner;
+
+public class Enter_A_String
+{
+	private static Scanner scan;
+
+	public static void main(String[] args) throws StringTooLongException 
+	{
+		
+		scan = new Scanner(System.in);
+		final int MAX = 20;
+		String string = null;
+		int x = 0;
+		StringTooLongException exception = new StringTooLongException(string);
+		
+		do{
+			System.out.println("Enter a string less than or equal to 20 characters, or enter DONE:");
+			string = scan.next();
+			
+			if(string == "DONE")
+			{
+				System.out.println("Program ended.");
+				x = 1;
+			}
+			else if(string.length() > MAX)
+			{
+				x = 1;
+				throw exception;
+			}
+			else
+			{
+				System.out.println("The string _" + string +"_ is valid.");
+			}
+			
+		}while(x==0);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//User enters a string <= MAX, but this time program catches and handles exception
+import java.util.Scanner;
+
+public class Improved_Enter_A_String 
+{
+		private static Scanner scan;
+		static int x = 0;
+		
+		public static void main(String[] args) throws StringTooLongException 
+		{
+			scan = new Scanner(System.in);
+			final int MAX = 20;
+			String string = new String();
+			
+			do{
+				System.out.println("Enter a string less than or equal to 20 characters, or enter DONE to quit:");
+				string = scan.next();
+				
+				try
+				{	
+					if(string.matches("DONE"))
+					{
+						System.out.println("Program ended.");
+						x = 1;
+					}
+					else if(string.length() > MAX)
+					{
+						throw new RuntimeException("String too long");
+					}
+					else if (string.length() <= MAX)
+					{
+						System.out.println("The string " + string +" is valid.");
+					}
+				}
+				
+				catch(Exception exception1) 
+				{
+					System.out.println("String too long. Try again!");
+				}
+				
+			}while(x==0);
+		}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//demonstrates use of a file chooser & a text area
+import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+
+import javax.swing.*;
+
+public class DisplayFile  
+{
+	private static JButton save;
+	String file = "test.dat";
+	
+	FileWriter fw = new FileWriter(file);
+	BufferedWriter bw = new BufferedWriter(fw);
+	PrintWriter outFile = new Printwriter(bw);
+ 	
+	//Opens a file chooser dialog, reads selected file, & loads it into text area
+	public static void main (String[] args)
+	{
+		JFrame frame = new JFrame("Display File");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel panel = new JPanel();
+		
+		JTextArea ta = new JTextArea("20, 30");
+		JFileChooser chooser = new JFileChooser();
+		
+		int status = chooser.showOpenDialog(null);
+		save = new JButton("Save"); //save button
+		save.addActionListener(new tempListener());
+		
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.add(save);
+		panel.add(ta);
+				
+		if(status != JFileChooser.APPROVE_OPTION)
+		{
+			ta.setText("No File Chosen");
+		}
+		else
+		{
+			File file = chooser.getSelectedFile();
+			Scanner scan = null;
+			try 
+			{
+				scan = new Scanner(file);
+			} 
+			catch (FileNotFoundException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			String info = "";
+			while(scan.hasNext())
+			{
+				info += scan.nextLine() + "\n";
+			}
+			
+			ta.setText(info);
+		}
+		
+		frame.getContentPane().add(panel);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	private class tempListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent event, AbstractButton ta)
+		{
+			ta.getText();
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//exception for Enter_A_String if user enters a string that is > MAX
+public class StringTooLongException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+	
+	StringTooLongException(String string)
+	{
+		super(string);
+	}
+	
+}
